@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="VideoInput">
+      <UniqueIdentifier>{dc14b1ac-ecd1-46b4-bf58-d9a02335e4f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VCC">
+      <UniqueIdentifier>{d9c8dc93-070b-4dd0-bd8f-aa19ef91c5fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tools">
+      <UniqueIdentifier>{916b3902-6102-44ae-8a0d-0a8a510694d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SubWindow">
+      <UniqueIdentifier>{fc997e9f-d32b-44a3-889f-f14fae01dfd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PTU">
+      <UniqueIdentifier>{b1ae46f5-55e0-4bfa-a3c5-077494a67826}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="MainWindow.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="VideoInput\vi_cap.cpp">
+      <Filter>VideoInput</Filter>
+    </ClCompile>
+    <ClCompile Include="VCC\vcc.cpp">
+      <Filter>VCC</Filter>
+    </ClCompile>
+    <ClCompile Include="LeastSquares\least_squares.cpp">
+      <Filter>Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="RevisionTool.cpp">
+      <Filter>SubWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="ptu\code\ptu.cpp">
+      <Filter>PTU</Filter>
+    </ClCompile>
+    <ClCompile Include="ptu\code\w32seria.cpp">
+      <Filter>PTU</Filter>
+    </ClCompile>
+    <ClCompile Include="turnPTU.cpp">
+      <Filter>PTU</Filter>
+    </ClCompile>
+    <ClCompile Include="Pan-tilter_manual.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MainWindow.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoInput\vi_cap.h">
+      <Filter>VideoInput</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoInput\videoInput.h">
+      <Filter>VideoInput</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\global.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="VCC\vcc.h">
+      <Filter>VCC</Filter>
+    </ClInclude>
+    <ClInclude Include="LeastSquares\least_squares.h">
+      <Filter>Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\define.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="approx.h">
+      <Filter>SubWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="RevisionTool.h">
+      <Filter>SubWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="ptu\include\cpiver.h">
+      <Filter>PTU</Filter>
+    </ClInclude>
+    <ClInclude Include="ptu\include\opcodes.h">
+      <Filter>PTU</Filter>
+    </ClInclude>
+    <ClInclude Include="ptu\include\ptu.h">
+      <Filter>PTU</Filter>
+    </ClInclude>
+    <ClInclude Include="ptu\include\w32seria.h">
+      <Filter>PTU</Filter>
+    </ClInclude>
+    <ClInclude Include="turnPTU.h">
+      <Filter>PTU</Filter>
+    </ClInclude>
+    <ClInclude Include="Pan-tilter_manual.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MainWindow.resx">
+      <Filter>リソース ファイル</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pan-tilter_manual.resx">
+      <Filter>リソース ファイル</Filter>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>
