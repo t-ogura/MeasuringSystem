@@ -671,7 +671,6 @@ namespace MeasuringSystem {
 			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->Name = L"MainWindow";
 			this->Text = L"MainWindow";
-			this->Load += gcnew System::EventHandler(this, &MainWindow::MainWindow_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->leftImageBox))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->rightImageBox))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->centerImageBox))->EndInit();
@@ -695,8 +694,7 @@ namespace MeasuringSystem {
 
 		}
 #pragma endregion
-	private: System::Void MainWindow_Load(System::Object^  sender, System::EventArgs^  e) {
-	}
+
 	///////////////////////////////////////////////ˆÈ‰ºŽ©‘O’Ç‰ÁŠÖ”////////////////////////////////////////
 	/// std::string -> System::String ‚Ö‚Ì•ÏŠ·
 	public: String^ ToSystemString(const std::string& i_src){
@@ -764,8 +762,9 @@ namespace MeasuringSystem {
 		double pixelSize;
 		int COMPortNum;
 		System::String ^serverDirectry;
-		int clientID;
 		bool automaticallyTransmit;
+		bool automaticallyTracking;
+		System::String ^clientID;
 	}initParams;
 	public: ref class Linear{
 	public:

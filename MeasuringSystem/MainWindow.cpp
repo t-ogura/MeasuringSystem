@@ -458,8 +458,9 @@ System::Void MainWindow::readInitFile(std::string filename){
 	initParams.COMPortNum = 22;
 	/* Data transmit info */
 	initParams.serverDirectry = "\\\\rg-laptop-06\\share";
-	initParams.clientID = 0;
+	initParams.clientID = "L";
 	initParams.automaticallyTransmit = false;
+	initParams.automaticallyTracking = false;
 
 
 	std::string str;
@@ -532,6 +533,27 @@ System::Void MainWindow::readInitFile(std::string filename){
 		else if (token1 == "SERVER_DIRECTRY"){
 			initParams.serverDirectry = ToSystemString(ss.str());
 		}
+		else if (token1 == "CLIENT_ID "){
+			initParams.clientID = ToSystemString(ss.str());
+		}
+		else if (token1 == "AUTOMATICALLY_TRANSMIT"){
+			initParams.automaticallyTransmit = true;
+		}
+		else if (token1 == "AUTOMATICALLY_TRACKING"){
+			initParams.automaticallyTracking = true;
+		}
+	}
+
+	this->Text = initParams.clientID + " - Measuring System";
+	if (initParams.clientID == "R"){
+		this->RadioR->Checked = true;
+	}
+
+	if (initParams.automaticallyTracking){
+		this->PanTilterEnableCheck->Checked = true;
+	}
+	if (initParams.automaticallyTransmit){
+		this->SendCheck->Checked = true;
 	}
 
 	this->trackingParameters.centerCameraID = this->initParams.centerCamera.id;
