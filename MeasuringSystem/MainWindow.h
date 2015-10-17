@@ -501,6 +501,7 @@ namespace MeasuringSystem {
 			// FrameNumber
 			// 
 			this->FrameNumber->Location = System::Drawing::Point(55, 43);
+			this->FrameNumber->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000000000, 0, 0, 0 });
 			this->FrameNumber->Name = L"FrameNumber";
 			this->FrameNumber->Size = System::Drawing::Size(43, 19);
 			this->FrameNumber->TabIndex = 10;
@@ -723,7 +724,17 @@ namespace MeasuringSystem {
 
 		//‹L˜^ŠÖŒW
 		if (output != nullptr){
-			output->writeData(distances.original, distances.revised, distances.kf);
+			output->writeData(
+				distances.original, 
+				distances.revised, 
+				distances.kf, 
+				leftPoint->x + vcc_L->subpixel_x,
+				leftPoint->y + vcc_L->subpixel_y,
+				vcc_L->correlationPoint,
+				rightPoint->x + vcc_R->subpixel_x,
+				rightPoint->y + vcc_R->subpixel_y,
+				vcc_R->correlationPoint
+				);
 			if (output->imageFrameIndex > Convert::ToInt32(this->FrameNumber->Text)){
 				this->SaveStartButton->Enabled = true;
 				output->~DataOutputFile();
@@ -795,13 +806,15 @@ public: ref class KalmanFilterParameters{
 public:
 	KalmanFilterParameters(){
 		prev_angles = gcnew array<double>(5);
+		kalmanInitFinish = false;
 	}
-	System::Void kalmanInitialize(double processNoisCov, double measurementNoiseCov);
+	System::Void kalmanInitialize(double processNoisCov, double measurementNoiseCov, double distance);
 	cv::KalmanFilter *KF;
 	cv::Mat_<float> *KF_State;
 	cv::Mat *KF_ProcessNoise;
 	cv::Mat_<float> *KF_Measurement;
 	double prev_angle;
+	bool kalmanInitFinish;
 	double angleKalman(double platform, double ditected, int correlation, int tracking_th);
 	array<double> ^prev_angles;
 }distanceKalman,panAngleKalman,tiltAngleKalman;
@@ -849,13 +862,31 @@ public:
 	}
 	System::Void writeData(double original,
 						   double revised,
-						   double kalman
+						   double kalman,
+						   double left_vcc_x,
+						   double left_vcc_y,
+						   double left_vcc_corr,
+						   double right_vcc_x,
+						   double right_vcc_y,
+						   double right_vcc_corr
 						   ){
 		swriter->Write(String::Format("{0:#0.0000000000}", original));
 		swriter->Write(",");
 		swriter->Write(String::Format("{0:#0.0000000000}", revised));
 		swriter->Write(",");
-		swriter->WriteLine(String::Format("{0:#0.0000000000}", kalman));
+		swriter->Write(String::Format("{0:#0.0000000000}", kalman));
+		swriter->Write(",");
+		swriter->Write(String::Format("{0:#0.0000000000}", left_vcc_x));
+		swriter->Write(",");
+		swriter->Write(String::Format("{0:#0.0000000000}", left_vcc_y));
+		swriter->Write(",");
+		swriter->Write(String::Format("{0:#0.0000000000}", left_vcc_corr));
+		swriter->Write(",");
+		swriter->Write(String::Format("{0:#0.0000000000}", right_vcc_x));
+		swriter->Write(",");
+		swriter->Write(String::Format("{0:#0.0000000000}", right_vcc_y));
+		swriter->Write(",");
+		swriter->WriteLine(String::Format("{0:#0.0000000000}", right_vcc_corr));
 		this->imageFrameIndex++;
 	}
 	int imageFrameIndex;

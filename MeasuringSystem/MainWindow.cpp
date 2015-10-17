@@ -84,14 +84,14 @@ PanTilt angleCalculation(VCC ^vcc, cv::Point p, double f, double pixelSize){
 }
 
 
-System::Void MainWindow::KalmanFilterParameters::kalmanInitialize(double processNoisCov, double measurementNoiseCov){
+System::Void MainWindow::KalmanFilterParameters::kalmanInitialize(double processNoisCov, double measurementNoiseCov, double dist){
 	this->KF = new cv::KalmanFilter(2, 1, 0);
 	this->KF_State = new cv::Mat_<float>(2, 1);
 	this->KF_ProcessNoise = new cv::Mat(2, 1, CV_32F);
 	this->KF_Measurement = new cv::Mat_<float>(1, 1);
 	this->KF_Measurement->setTo(cv::Scalar(0));
 
-	this->KF->statePre.at<float>(0) = 1000;
+	this->KF->statePre.at<float>(0) = dist;
 	this->KF->statePre.at<float>(1) = 0;
 	this->KF->transitionMatrix = *(cv::Mat_<float>(2, 2) << 1, 0, 0, 1);
 
@@ -99,6 +99,8 @@ System::Void MainWindow::KalmanFilterParameters::kalmanInitialize(double process
 	cv::setIdentity(this->KF->processNoiseCov, cv::Scalar::all(processNoisCov));
 	cv::setIdentity(this->KF->measurementNoiseCov, cv::Scalar::all(measurementNoiseCov));
 	cv::setIdentity(this->KF->errorCovPost, cv::Scalar::all(.1));
+
+	this->kalmanInitFinish = true;
 }
 
 System::Void MainWindow::mesuring(){
@@ -196,6 +198,10 @@ System::Void MainWindow::mesuring(){
 	else this->distances.revised = qua;
 	if (angle_L.pan + angle_R.pan < 0) theta *= -1;
 
+	if (!this->distanceKalman.kalmanInitFinish){
+		this->distanceKalman.kalmanInitialize(this->initParams.measurementKalmanfilter.processNoiseCov, this->initParams.measurementKalmanfilter.measurementNoiseCov,this->distances.revised);
+	}
+
 	cv::Mat prediction = this->distanceKalman.KF->predict();
 	double predictDist = prediction.at<float>(0);
 	if (fabs(mid - prev_average_distance)>500){ (*this->distanceKalman.KF_Measurement)(0) = prev_dist_kf; }
@@ -204,6 +210,11 @@ System::Void MainWindow::mesuring(){
 	cv::Mat estimated = this->distanceKalman.KF->correct((*this->distanceKalman.KF_Measurement));
 	this->distances.kf = estimated.at<float>(0);
 
+
+	if (this->distances.kf != this->distances.kf){
+		this->distanceKalman.kalmanInitialize(this->initParams.measurementKalmanfilter.processNoiseCov, this->initParams.measurementKalmanfilter.measurementNoiseCov, this->distances.revised);
+		std::cout << "kalman initialize" << std::endl;
+	}
 
 	//•\Ž¦ŠÖŒW
 	this->OriginalValue->Text = String::Format("{0:#0.00}", mid);
@@ -384,7 +395,7 @@ System::Void MainWindow::Tracking_background_DoWork(System::Object^  sender, Sys
 					ss << this->trackingParameters.COMPortNum;
 					char *cstr = new char[ss.str().length() + 1];
 					strcpy(cstr, ss.str().c_str());
-					ptu = new PTU(cstr, 19200);
+					ptu = new PTU(cstr, 9600);
 					ptu->turnHome();
 					Sleep(2000);
 					ptu->setSpeed();
@@ -535,9 +546,8 @@ System::Void MainWindow::initialize(){
 	this->linear.a0 = 0.0;
 	this->linear.a1 = 0.0;
 	this->linear.a2 = 0.0;
-	this->distanceKalman.kalmanInitialize(this->initParams.measurementKalmanfilter.processNoiseCov, this->initParams.measurementKalmanfilter.measurementNoiseCov);
-	this->panAngleKalman.kalmanInitialize(this->initParams.angleKalmanfilter.processNoiseCov, this->initParams.angleKalmanfilter.measurementNoiseCov);
-	this->tiltAngleKalman.kalmanInitialize(this->initParams.angleKalmanfilter.processNoiseCov, this->initParams.angleKalmanfilter.measurementNoiseCov);
+	this->panAngleKalman.kalmanInitialize(this->initParams.angleKalmanfilter.processNoiseCov, this->initParams.angleKalmanfilter.measurementNoiseCov, 0.0);
+	this->tiltAngleKalman.kalmanInitialize(this->initParams.angleKalmanfilter.processNoiseCov, this->initParams.angleKalmanfilter.measurementNoiseCov, 0.0);
 	this->ManualControlFlag = false;
 }
 
