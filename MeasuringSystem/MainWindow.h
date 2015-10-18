@@ -932,10 +932,21 @@ private: System::Void server_output(){
 			this->tracking_mtx->WaitOne();
 			swriter->WriteLine(this->targetAngle.pan);
 			swriter->WriteLine(this->targetAngle.tilt);
+			swriter->WriteLine(this->centerPoint->x + this->vcc_C->subpixel_x);
+			swriter->WriteLine(this->centerPoint->y + this->vcc_C->subpixel_y);
+			swriter->WriteLine(this->vcc_C->correlationPoint);
 		}
 		finally{
 			this->tracking_mtx->ReleaseMutex();
 		}
+		swriter->WriteLine(this->leftPoint->x + this->vcc_L->subpixel_x);
+		swriter->WriteLine(this->leftPoint->y + this->vcc_L->subpixel_y);
+		swriter->WriteLine(this->vcc_L->correlationPoint);
+		swriter->WriteLine(this->rightPoint->x + this->vcc_R->subpixel_x);
+		swriter->WriteLine(this->rightPoint->y + this->vcc_R->subpixel_y);
+		swriter->WriteLine(this->vcc_R->correlationPoint);
+		swriter->WriteLine(this->distances.original);
+		swriter->WriteLine(this->distances.revised);
 		swriter->Close();
 	}
 }
